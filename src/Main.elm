@@ -4,6 +4,7 @@ import Html exposing (Html, text, div, h1, img, input, form, label, span, small,
 import Html.Attributes exposing (src, class, placeholder, attribute, type_, id, for, href, alt)
 import List
 import Types.Attempt exposing (Attempt, AttemptId)
+import Icons exposing (star, zap)
 
 
 ---- MODEL ----
@@ -169,8 +170,13 @@ viewEntry =
     div [ class "bt bb b--black-20" ]
         [ div [ class "pv4 ph3 ph0-l flex flex-column flex-row-ns" ]
             [ div [ class "pr3-ns mb4 mb0-ns w-100 w-40-ns" ]
-                [ h1 [ class "f3 fw1 baskerville mt0 mb0 lh-title" ]
+                [ h1 [ class "pb3 f3 fw1 baskerville mt0 mb0 lh-title" ]
                     [ text "Getting Webpack to do my bidding" ]
+                , div
+                    [ class "flex" ]
+                    [ box [ ( R, P2 ) ] [] [ viewCounterStar "1" ]
+                    , viewCounterZap "10"
+                    ]
                 ]
             , div [ class "w-100 w-60-ns pl3-ns" ]
                 [ box [ ( B, P4 ) ] [] viewComment
@@ -186,6 +192,16 @@ viewComment =
     , p [ class "f6 lh-copy mv0" ]
         [ text "By Person Personson" ]
     ]
+
+
+viewCounterStar num =
+    div [ class "flex pv1 ph2 f6 bg-light-yellow ba b--black-10 br-pill justify-center items-center" ]
+        [ star, span [ class "pl1" ] [ text num ] ]
+
+
+viewCounterZap num =
+    div [ class "flex pv1 ph2 f6 bg-washed-red ba b--black-10 br-pill justify-center items-center" ]
+        [ zap, span [ class "pl1" ] [ text num ] ]
 
 
 
