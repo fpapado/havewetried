@@ -1,7 +1,7 @@
 module Main exposing (..)
 
-import Html exposing (Html, text, div, h1, img, input, form, label, span, small, button)
-import Html.Attributes exposing (src, class, placeholder, attribute, type_, id, for)
+import Html exposing (Html, text, div, h1, img, input, form, label, span, small, button, p, a)
+import Html.Attributes exposing (src, class, placeholder, attribute, type_, id, for, href, alt)
 import List
 import Types.Attempt exposing (Attempt, AttemptId)
 
@@ -114,6 +114,9 @@ view model =
         , box [ ( V, P4 ) ]
             []
             [ viewNewAttemptForm ]
+        , box [ ( V, P4 ) ]
+            []
+            [ viewEntry ]
         ]
 
 
@@ -141,7 +144,7 @@ viewNewAttemptForm =
             [ div [ class "w-50 pb3 pr3" ] <| viewFormInput "Title" "title"
             , div [ class "w-50 pb3" ] <| viewFormInput "Date" "date"
             , div [ class "w-100 pb3" ] <| viewFormInput "Description" "description"
-            , viewButton [] [ text "Submit" ]
+            , viewButton [ class "f6" ] [ text "Submit" ]
             ]
         ]
 
@@ -159,6 +162,29 @@ viewFormInput labelText inputId =
         []
     , small [ class "f6 black-60 db mb2", id <| inputId ++ "-desc" ]
         [ text "Helper text for the form control." ]
+    ]
+
+
+viewEntry =
+    div [ class "bt bb b--black-20" ]
+        [ div [ class "pv4 ph3 ph0-l flex flex-column flex-row-ns" ]
+            [ div [ class "pr3-ns mb4 mb0-ns w-100 w-40-ns" ]
+                [ h1 [ class "f3 fw1 baskerville mt0 mb0 lh-title" ]
+                    [ text "Getting Webpack to do my bidding" ]
+                ]
+            , div [ class "w-100 w-60-ns pl3-ns" ]
+                [ box [ ( B, P4 ) ] [] viewComment
+                , box [ ( B, P4 ) ] [] viewComment
+                ]
+            ]
+        ]
+
+
+viewComment =
+    [ p [ class "mt0 f6 f5-l lh-copy" ]
+        [ text "The tech giant says it is ready to begin planning a quantum computer, a powerful cpu machine that relies on subatomic particles instead of transistors." ]
+    , p [ class "f6 lh-copy mv0" ]
+        [ text "By Person Personson" ]
     ]
 
 
