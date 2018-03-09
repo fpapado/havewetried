@@ -1,4 +1,4 @@
-module Vote exposing (Vote, fromInt, toInt, map, map2)
+module Types.Vote exposing (Vote, fromInt, toInt, map, map2)
 
 
 type Vote

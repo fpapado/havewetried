@@ -1,9 +1,9 @@
-module Attempt exposing (Attempt, AttemptId, fromString, toString, map, map2)
+module Types.Attempt exposing (Attempt, AttemptId, fromString, toString, map, map2)
 
-import Vote exposing (Vote)
+import Types.Vote exposing (Vote)
 
 
-type alias Attemt =
+type alias Attempt =
     { id : AttemptId
     , title : String
     , upvotes : Vote
