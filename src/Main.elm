@@ -3,7 +3,9 @@ module Main exposing (..)
 import Html exposing (Html, text, div, h1, img, input, form, label, span, small, button, p, a)
 import Html.Attributes exposing (src, class, placeholder, attribute, type_, id, for, href, alt)
 import List
-import Types.Attempt exposing (Attempt, AttemptId)
+import Mocks exposing (fakeAttempts)
+import Types.Attempt as Attempt exposing (Attempt, AttemptViewModel)
+import Types.Comment as Comment exposing (Comment, CommentViewModel)
 import Icons exposing (star, zap)
 
 
@@ -11,12 +13,13 @@ import Icons exposing (star, zap)
 
 
 type alias Model =
-    {}
+    { entries : List Attempt
+    }
 
 
 init : ( Model, Cmd Msg )
 init =
-    ( {}, Cmd.none )
+    ( { entries = fakeAttempts }, Cmd.none )
 
 
 
@@ -117,7 +120,10 @@ view model =
             [ viewNewAttemptForm ]
         , box [ ( V, P4 ) ]
             []
-            [ viewEntry ]
+          <|
+            List.map
+                (viewEntry << Attempt.toViewModel)
+                model.entries
         ]
 
 
@@ -166,29 +172,35 @@ viewFormInput labelText inputId =
     ]
 
 
-viewEntry =
+viewEntry : AttemptViewModel -> Html msg
+viewEntry entry =
     div [ class "bt bb b--black-20" ]
         [ div [ class "pv4 ph3 ph0-l flex flex-column flex-row-ns" ]
             [ div [ class "pr3-ns mb4 mb0-ns w-100 w-40-ns" ]
                 [ h1 [ class "pb3 f3 fw1 baskerville mt0 mb0 lh-title" ]
-                    [ text "Getting Webpack to do my bidding" ]
+                    [ text entry.title ]
                 , div
                     [ class "flex" ]
-                    [ box [ ( R, P2 ) ] [] [ viewCounterStar "1" ]
-                    , viewCounterZap "10"
+                    [ viewCounterStar <| toString entry.upvotes
+
+                    -- , viewCounterZap "10"
                     ]
                 ]
-            , div [ class "w-100 w-60-ns pl3-ns" ]
-                [ box [ ( B, P4 ) ] [] viewComment
-                , box [ ( B, P4 ) ] [] viewComment
-                ]
+            , div [ class "w-100 w-60-ns pl3-ns" ] <|
+                List.map
+                    (box [ ( B, P4 ) ] []
+                        << viewComment
+                        << Comment.toViewModel
+                    )
+                    entry.comments
             ]
         ]
 
 
-viewComment =
+viewComment : CommentViewModel -> List (Html msg)
+viewComment comment =
     [ p [ class "mt0 f6 f5-l lh-copy" ]
-        [ text "The tech giant says it is ready to begin planning a quantum computer, a powerful cpu machine that relies on subatomic particles instead of transistors." ]
+        [ text comment.content ]
     , p [ class "f6 lh-copy mv0" ]
         [ text "By Person Personson" ]
     ]

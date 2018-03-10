@@ -1,34 +1,31 @@
-module Types.Attempt exposing (Attempt, AttemptId, fromString, toString, map, map2)
+module Types.Attempt exposing (Attempt, AttemptViewModel, toViewModel)
 
-import Types.Vote exposing (Vote)
+import Types.AttemptId as AttemptId exposing (AttemptId)
+import Types.AttemptTitle as AttemptTitle exposing (AttemptTitle)
+import Types.Vote as Vote exposing (Vote)
+import Types.Comment as Comment exposing (Comment)
 
 
 type alias Attempt =
     { id : AttemptId
-    , title : String
+    , title : AttemptTitle
     , upvotes : Vote
+    , comments : List Comment
     }
 
 
-type AttemptId
-    = AttemptId String
+type alias AttemptViewModel =
+    { id : String
+    , title : String
+    , upvotes : Int
+    , comments : List Comment
+    }
 
 
-fromString : String -> AttemptId
-fromString x =
-    AttemptId x
-
-
-toString : AttemptId -> String
-toString (AttemptId x) =
-    x
-
-
-map : (String -> String) -> AttemptId -> AttemptId
-map f (AttemptId x) =
-    AttemptId (f x)
-
-
-map2 : (String -> String -> String) -> AttemptId -> AttemptId -> AttemptId
-map2 f (AttemptId x) (AttemptId y) =
-    AttemptId (f x y)
+toViewModel : Attempt -> AttemptViewModel
+toViewModel { id, title, upvotes, comments } =
+    { id = AttemptId.toString id
+    , title = AttemptTitle.toString title
+    , upvotes = Vote.toInt upvotes
+    , comments = comments
+    }
